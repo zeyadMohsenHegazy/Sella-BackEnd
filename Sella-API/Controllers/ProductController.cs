@@ -19,7 +19,7 @@ namespace Sella_API.Controllers
         [HttpGet]
         public IActionResult GetAllProducts()
         {
-            var products = context.Products.ToList();
+            var products = context.Products.Include(p => p.category).ToList();
             return Ok(products);
         }
 

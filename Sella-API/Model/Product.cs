@@ -36,7 +36,7 @@ namespace Sella_API.Model
        
         [ForeignKey("category")]
         public int CategoryID { get; set; }
-        [JsonIgnore]
+
         public virtual Category category { get; set; }
 
 

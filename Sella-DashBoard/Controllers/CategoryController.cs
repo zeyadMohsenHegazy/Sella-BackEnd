@@ -52,8 +52,8 @@ namespace Sella_DashBoard.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            Category Emp = await client.GetFromJsonAsync<Category>(route+"/"+id);
-            return View(Emp);
+            Category category = await client.GetFromJsonAsync<Category>(route+"/"+id);
+            return View(category);
         }
 
         [HttpGet]
