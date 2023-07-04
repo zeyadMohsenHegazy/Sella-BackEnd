@@ -16,6 +16,26 @@ namespace Sella_API.Controllers
         {
             context = _context;
         }
+        [HttpGet]
+        public IActionResult GetAllProducts()
+        {
+            var products = context.Products.ToList();
+            return Ok(products);
+        }
+
+        [HttpGet("{id:int}")]
+        public IActionResult GetProductbyID(int id)
+        {
+            if (ModelState.IsValid == true)
+            {
+                var product = context.Products.Find(id);
+                return Ok(product);
+            }
+            else
+            {
+                return BadRequest("Products Not Exist !!!");
+            }
+        }
 
         [HttpPost]
         public IActionResult AddProduct(ProductWithCategoryDTO data)
@@ -41,6 +61,34 @@ namespace Sella_API.Controllers
             {
                 return BadRequest("Employee Not Exist !!!");
             }
+        }
+
+
+        [HttpPut("{id:int}")]
+        public IActionResult EditProduct(int id, [FromBody] ProductWithCategoryDTO data)
+        {
+            var update_Product = context.Products.Find(id);
+            update_Product.ProductName = data.ProductName;
+            update_Product.Price = data.Price;
+            update_Product.Quantity = data.Quantity;
+            update_Product.Color = data.Color;
+            update_Product.Description = data.Description;
+            update_Product.Length = data.Length;
+            update_Product.Width = data.Width;
+            update_Product.Height = data.Height;
+            update_Product.CategoryID = data.CategoryID;
+
+            context.SaveChanges();
+            return Ok("Product Updated !! ");
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteProduct(int id)
+        {
+            var P = context.Products.Find(id);
+            context.Products.Remove(P);
+            context.SaveChanges();
+            return Ok("Product Deleted !!");
         }
     }
 
