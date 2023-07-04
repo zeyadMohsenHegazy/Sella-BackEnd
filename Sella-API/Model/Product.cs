@@ -1,6 +1,7 @@
 ﻿using Castle.Components.DictionaryAdapter;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using KeyAttribute = System.ComponentModel.DataAnnotations.KeyAttribute;
 namespace Sella_API.Model
 {
@@ -32,15 +33,17 @@ namespace Sella_API.Model
         public double? Width { get; set; }
         public double? Height { get; set; }
 
-
+       
         [ForeignKey("category")]
         public int CategoryID { get; set; }
+        [JsonIgnore]
         public virtual Category category { get; set; }
 
 
-
+       
         [InverseProperty("Product")]
         public virtual ICollection<OrderedProducts> OrderedProducts { get; set; }
+        
         [InverseProperty("Product")]
         public virtual ICollection<CartProducts> CartProducts { get; set; }
 
