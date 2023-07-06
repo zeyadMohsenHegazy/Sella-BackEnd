@@ -11,7 +11,7 @@ namespace Sella_API.Model
 
         //forign key
         [ForeignKey("product")]
-        public int ProductID { get; set; }
+        public int ProductID { get; set; } 
         public virtual Product product { get; set; }
     }
 }
