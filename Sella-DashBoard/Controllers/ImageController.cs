@@ -33,68 +33,115 @@ namespace Sella_DashBoard.Controllers
             return View();
             
         }
+
+        //MVC
         [HttpPost]
+        //public async Task<IActionResult> Create([FromForm] ProductImagesDTO data)
+        //{
+        //    var content = new MultipartFormDataContent();
+        //    content.Add(new StringContent(data.ImageID.ToString()), "ImageID");
+        //    if (data.ImageURL != null && data.ImageURL.Count > 0)
+        //    {
+        //        foreach (var image in data.ImageURL)
+        //        {
+        //            content.Add(new StreamContent(image.OpenReadStream())
+        //            {
+        //                Headers =
+        //        {
+        //            ContentLength = image.Length,
+        //            ContentType = new MediaTypeHeaderValue(image.ContentType)
+        //        }
+        //            }, "Images", image.FileName);
+        //        }
+        //    }
+        //    content.Add(new StringContent(data.ProductID.ToString()), "ProductID");
+
+        //    var request = new HttpRequestMessage(HttpMethod.Post, route);
+        //    request.Content = content;
+
+        //    HttpResponseMessage httpResponse = await client.PostAsync(route, content);
+        //    if (httpResponse.StatusCode == HttpStatusCode.OK)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //    else if (httpResponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        //    {
+        //        return View();
+        //    }
+
+        //    return View(data);
+        //}
+
+
+
+
+
+        //var content = new MultipartFormDataContent();
+        //content.Add(new StringContent(data.ImageID.ToString()), "ImageID");
+        //if (data.ImageURL != null && data.ImageURL.Count > 0)
+        //{
+        //    foreach (var image in data.ImageURL)
+        //    {
+        //        content.Add(new StreamContent(image.OpenReadStream())
+        //        {
+        //            Headers =
+        //    {
+        //        ContentLength = image.Length,
+        //        ContentType = new MediaTypeHeaderValue(image.ContentType)
+        //    }
+        //        }, "Images", image.FileName);
+        //    }
+        //}
+        //content.Add(new StringContent(data.ProductID.ToString()), "ProductID");
         public async Task<IActionResult> Create([FromForm] ProductImagesDTO data)
         {
+            // Create a new MultipartFormDataContent object to hold the request body
             var content = new MultipartFormDataContent();
-            content.Add(new StringContent(data.ImageID.ToString()), "ImageID");
+
+            // Add the product ID to the request body
+            content.Add(new StringContent(data.ProductID.ToString()), "ProductID");
+
+            // Loop through the uploaded images and add them to the request body
             if (data.ImageURL != null && data.ImageURL.Count > 0)
             {
                 foreach (var image in data.ImageURL)
                 {
-                    content.Add(new StreamContent(image.OpenReadStream())
+                    // Add the image file to the request body
+                    byte[] fileBytes;
+                    using (var memoryStream = new MemoryStream())
                     {
-                        Headers =
-                {
-                    ContentLength = image.Length,
-                    ContentType = new MediaTypeHeaderValue(image.ContentType)
-                }
-                    }, "Images", image.FileName);
+                        await image.CopyToAsync(memoryStream);
+                        fileBytes = memoryStream.ToArray();
+                    }
+
+                    content.Add(new ByteArrayContent(fileBytes), "ImageURL", image.FileName);
                 }
             }
-            content.Add(new StringContent(data.ProductID.ToString()), "ProductID");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, route);
+            // Create a new HttpClient object and set its base address to the API's URL
+            var apiUrl = "http://localhost:49182";
+            var client = new HttpClient { BaseAddress = new Uri(apiUrl) };
+
+            // Create a new HttpRequestMessage object with the POST method and the request body
+            var request = new HttpRequestMessage(HttpMethod.Post, "/api/Image");
             request.Content = content;
 
-            HttpResponseMessage httpResponse = await client.PostAsync(route , content);
-            if (httpResponse.StatusCode == HttpStatusCode.OK)
+            // Send the request using the HttpClient object and wait for the response
+            var response = await client.SendAsync(request);
+
+            // Check the status code of the response and return a result
+            if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
             }
-            else if (httpResponse.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            else
             {
                 return View();
             }
-
-            return View(data);
-
-
-
-
-
-
-            //var content = new MultipartFormDataContent();
-            //content.Add(new StringContent(data.ImageID.ToString()), "ImageID");
-            //if (data.ImageURL != null && data.ImageURL.Count > 0)
-            //{
-            //    foreach (var image in data.ImageURL)
-            //    {
-            //        content.Add(new StreamContent(image.OpenReadStream())
-            //        {
-            //            Headers =
-            //    {
-            //        ContentLength = image.Length,
-            //        ContentType = new MediaTypeHeaderValue(image.ContentType)
-            //    }
-            //        }, "Images", image.FileName);
-            //    }
-            //}
-            //content.Add(new StringContent(data.ProductID.ToString()), "ProductID");
-
-
-
         }
+
+
+
 
     }
 }

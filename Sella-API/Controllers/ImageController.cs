@@ -27,6 +27,7 @@ namespace Sella_API.Controllers
             return Ok(img);
         }
 
+        //API 
         [HttpPost]
         public IActionResult AddImage([FromForm]ProductImagesDTO data)
         {
