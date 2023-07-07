@@ -5,6 +5,16 @@
 }
 
 <h1>Product Images Section </h1>
+<h5> Filter by Product Name : </h5>
+
+@using (Html.BeginForm("Search", "Image", FormMethod.Get))
+{
+    <div class="form-group">
+        @Html.Label("Product Name")
+        @Html.DropDownList("products", "All Products")
+        <button type="submit" class="btn btn-info">Filter</button>
+    </div>
+}
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -18,7 +28,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.product.ProductName)
             </th>
-            <th></th>
+            <th>
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -31,9 +43,9 @@
                 @Html.DisplayFor(modelItem => item.product.ProductName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new { id=item.ImageID }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.ImageID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ImageID })
             </td>
         </tr>
 }
