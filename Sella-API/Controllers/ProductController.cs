@@ -11,7 +11,7 @@ namespace Sella_API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        SellaDb context = new SellaDb();
+        private readonly SellaDb context;
         public ProductController(SellaDb _context)
         {
             context = _context;
