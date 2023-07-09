@@ -10,7 +10,7 @@ namespace Sella_API.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        SellaDb context = new SellaDb();
+        private readonly SellaDb context;
         public CartController (SellaDb _context)
         {
             context = _context;
