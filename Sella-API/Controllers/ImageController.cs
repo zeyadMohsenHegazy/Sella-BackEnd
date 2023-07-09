@@ -22,12 +22,41 @@ namespace Sella_API.Controllers
         [HttpGet]
         public IActionResult GetAllImage()
         {
-
             var img = context.ProductImages.Include(p => p.product).ToList();
             return Ok(img);
         }
 
-        //API 
+        [HttpGet("product/{Pro_id:int}")]
+        public IActionResult GetAll(int Pro_id)
+        {
+            if (ModelState.IsValid == true)
+            {
+                var pro = context.ProductImages.Where(s => s.ProductID == Pro_id).ToList();
+                return Ok(pro);
+            }
+            else
+            {
+                return BadRequest("Image Not Exist !!!");
+            }
+
+        }
+
+        [HttpGet("{id:int}")]
+        public IActionResult GetImgbyID(int id)
+        {
+            if (ModelState.IsValid == true)
+            {
+                var emps = context.ProductImages.Find(id);
+                return Ok(emps);
+            }
+            else
+            {
+                return BadRequest("Image Not Exist !!!");
+            }
+
+        }
+
+
         [HttpPost]
         public IActionResult AddImage([FromForm]ProductImagesDTO data)
         {
@@ -59,10 +88,50 @@ namespace Sella_API.Controllers
                 return BadRequest("Invaild !");
             }
 
-
-
-
         }
+
+        [HttpPut("{id:int}")]
+        public IActionResult EditImage(int id, [FromForm] ProductImagesDTO data)
+        {
+
+            var update_Image = context.ProductImages.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                string UniqueFileName = null;
+                if (data.ImageURL != null && data.ImageURL.Count > 0)
+                {
+                    foreach (IFormFile photo in data.ImageURL)
+                    {
+                        string UploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images");
+                        UniqueFileName = photo.FileName;
+                        string FilePath = Path.Combine(UploadFolder, UniqueFileName);
+                        photo.CopyTo(new FileStream(FilePath, FileMode.Create));
+
+                        update_Image.ImageURL = UniqueFileName;
+                        update_Image.ProductID = data.ProductID;
+                        context.SaveChanges();
+                    }
+                }
+                return Ok("Updated");
+
+            }
+            else
+            {
+                return BadRequest("Invaild !");
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteImage(int id)
+        {
+            var Old_Image = context.ProductImages.Find(id);
+            context.ProductImages.Remove(Old_Image);
+            context.SaveChanges();
+            return Ok("Deleted");
+        }
+
+
 
 
     }
