@@ -37,6 +37,8 @@ namespace Sella_API.Model
         [ForeignKey("category")]
         public int CategoryID { get; set; }
 
+
+        
         public virtual Category category { get; set; }
 
 

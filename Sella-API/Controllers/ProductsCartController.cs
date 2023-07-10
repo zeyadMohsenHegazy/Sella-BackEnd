@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sella_API.Model;
 
 namespace Sella_API.Controllers
 {
@@ -7,5 +8,13 @@ namespace Sella_API.Controllers
     [ApiController]
     public class ProductsCartController : ControllerBase
     {
+
+        SellaDb context = new SellaDb();
+        public ProductsCartController(SellaDb _context)
+        {
+            context = _context;
+        }
+
+
     }
 }
