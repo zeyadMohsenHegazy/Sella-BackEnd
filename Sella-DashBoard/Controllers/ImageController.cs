@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sella_DashBoard.Models;
@@ -7,6 +8,7 @@ using System.Net.Http.Headers;
 
 namespace Sella_DashBoard.Controllers
 {
+    [Authorize]
     public class ImageController : Controller
     {
         IWebHostEnvironment hostingEnvironment;

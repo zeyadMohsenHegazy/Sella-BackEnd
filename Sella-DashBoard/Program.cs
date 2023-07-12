@@ -1,4 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Sella_DashBoard.Areas.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("SellaDashboardIdentityConnection") ?? throw new InvalidOperationException("Connection string 'SellaDashboardIdentityConnection' not found.");
+
+builder.Services.AddDbContext<SellaDashboardIdentity>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddDefaultIdentity<Sella_DashBoardUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<SellaDashboardIdentity>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -12,6 +20,7 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 
+app.MapRazorPages();
 app.UseRouting();
 
 app.UseAuthorization();

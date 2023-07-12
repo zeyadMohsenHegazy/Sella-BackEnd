@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sella_DashBoard.Models;
 
 namespace Sella_DashBoard.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         HttpClient client = new HttpClient();

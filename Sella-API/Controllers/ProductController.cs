@@ -20,21 +20,42 @@ namespace Sella_API.Controllers
         public IActionResult GetAllProducts()
         {
             var products = context.Products.Include(p => p.category).ToList();
+            //List<ProductWithCategoryDTO> data = new List<ProductWithCategoryDTO>();
+            //foreach (var product in products)
+            //{
+            //    ProductWithCategoryDTO item = new ProductWithCategoryDTO();
+            //    item.ProductID = product.ProductID;
+            //    item.ProductName = product.ProductName;
+            //    item.Price = product.Price;
+            //    item.Quantity = product.Quantity;
+            //    item.Description = product.Description;
+            //    item.Color = product.Color;
+            //    item.Length = product.Length;
+            //    item.Width = product.Width;
+            //    item.Height = product.Height;
+            //    item.CategoryID = product.CategoryID;
+
+            //    data.Add(item);
+            //}
             return Ok(products);
         }
 
         [HttpGet("{id:int}")]
         public IActionResult GetProductbyID(int id)
         {
-            if (ModelState.IsValid == true)
-            {
-                var product = context.Products.Find(id);
-                return Ok(product);
-            }
-            else
-            {
-                return BadRequest("Products Not Exist !!!");
-            }
+            var product = context.Products.Find(id);
+            ProductWithCategoryDTO item = new ProductWithCategoryDTO();
+            item.ProductID = product.ProductID;
+            item.ProductName = product.ProductName;
+            item.Price = product.Price;
+            item.Quantity = product.Quantity;
+            item.Description = product.Description;
+            item.Color = product.Color;
+            item.Length = product.Length;
+            item.Width = product.Width;
+            item.Height = product.Height;
+            item.CategoryID = product.CategoryID;
+            return Ok(product);
         }
 
         [HttpPost]
