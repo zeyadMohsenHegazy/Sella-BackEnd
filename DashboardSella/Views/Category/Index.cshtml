@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Sella_DashBoard.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discreption)
+            </th>
+            <th>
+                Index
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discreption)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.CategoryID  }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.CategoryID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.CategoryID})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

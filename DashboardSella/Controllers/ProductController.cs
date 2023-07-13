@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sella_DashBoard.Models;
-using System.Drawing;
 
-namespace Sella_DashBoard.Controllers
+namespace DashboardSella.Controllers
 {
-    [Authorize]
     public class ProductController : Controller
     {
         HttpClient client = new HttpClient();
@@ -45,13 +42,13 @@ namespace Sella_DashBoard.Controllers
 
             List<Category> categories = await client.GetFromJsonAsync<List<Category>>(route1);
             ViewBag.country = new SelectList(categories, "CategoryID", "CategoryName", 1);
-            Product P = await client.GetFromJsonAsync<Product>(route+"/"+id);
+            Product P = await client.GetFromJsonAsync<Product>(route + "/" + id);
             return View(P);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Product P)
         {
-            HttpResponseMessage httpResponse = await client.PutAsJsonAsync<Product>(route+"/"+id,P);
+            HttpResponseMessage httpResponse = await client.PutAsJsonAsync<Product>(route + "/" + id, P);
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return RedirectToAction("Index");
@@ -64,9 +61,9 @@ namespace Sella_DashBoard.Controllers
         {
 
             List<string> _imageUrl = new List<string>();
-            List<Images> _images = await client.GetFromJsonAsync<List<Images>>(route2+"/"+id);
-            Product P = await client.GetFromJsonAsync<Product>(route+"/"+id);
-            foreach(var _img in _images)
+            List<Images> _images = await client.GetFromJsonAsync<List<Images>>(route2 + "/" + id);
+            Product P = await client.GetFromJsonAsync<Product>(route + "/" + id);
+            foreach (var _img in _images)
             {
                 _imageUrl.Add(_img.ImageURL);
             }
@@ -82,7 +79,7 @@ namespace Sella_DashBoard.Controllers
         public async Task<IActionResult> Delete(int id)
         {
 
-            Product P = await client.GetFromJsonAsync<Product>(route+"/"+id);
+            Product P = await client.GetFromJsonAsync<Product>(route + "/" + id);
             return View(P);
 
         }
@@ -90,7 +87,7 @@ namespace Sella_DashBoard.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await client.DeleteAsync(route+"/"+id);
+            await client.DeleteAsync(route + "/" + id);
             return RedirectToAction("Index");
         }
 

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Sella_DashBoard.Models.Images>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Product Images Section </h1>
+<h5> Filter by Product Name : </h5>
+
+@using (Html.BeginForm("Search", "Image", FormMethod.Get))
+{
+    <div class="form-group">
+        @Html.Label("Product Name")
+        @Html.DropDownList("products", "All Products")
+        <button type="submit" class="btn btn-info">Filter</button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.product.ProductName)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.product.ProductName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.ImageID }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.ImageID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ImageID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

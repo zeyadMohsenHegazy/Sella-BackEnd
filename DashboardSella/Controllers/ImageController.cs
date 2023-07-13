@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sella_DashBoard.Models;
-using System.Net;
-using System.Net.Http.Headers;
 
-namespace Sella_DashBoard.Controllers
+namespace DashboardSella.Controllers
 {
-    [Authorize]
     public class ImageController : Controller
     {
         IWebHostEnvironment hostingEnvironment;
@@ -17,7 +12,7 @@ namespace Sella_DashBoard.Controllers
         string route1 = "http://localhost:49182/api/Product";
         public ImageController(IWebHostEnvironment _hostingEnvironment)
         {
-            
+
         }
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -32,7 +27,7 @@ namespace Sella_DashBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Search(int? products)
         {
-            if(products > 0)
+            if (products > 0)
             {
 
                 string r = "http://localhost:49182/api/Image/product";
@@ -43,9 +38,9 @@ namespace Sella_DashBoard.Controllers
             }
             else
             {
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
-           
+
         }
 
         [HttpGet]
@@ -55,7 +50,7 @@ namespace Sella_DashBoard.Controllers
             List<Product> P = await client.GetFromJsonAsync<List<Product>>(route1);
             ViewBag.products = new SelectList(P, "ProductID", "ProductName", 1);
             return View();
-            
+
         }
 
         public async Task<IActionResult> Create([FromForm] ProductImagesDTO data)
@@ -110,7 +105,7 @@ namespace Sella_DashBoard.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-            Images Img = await client.GetFromJsonAsync<Images>(route+"/"+id);
+            Images Img = await client.GetFromJsonAsync<Images>(route + "/" + id);
             List<Product> P = await client.GetFromJsonAsync<List<Product>>(route1);
             ViewBag.products = new SelectList(P, "ProductID", "ProductName", 1);
             return View(Img);
@@ -146,7 +141,7 @@ namespace Sella_DashBoard.Controllers
             var client = new HttpClient { BaseAddress = new Uri(apiUrl) };
 
             // Create a new HttpRequestMessage object with the POST method and the request body
-            var request = new HttpRequestMessage(HttpMethod.Put, $"/api/Image/{id}");   
+            var request = new HttpRequestMessage(HttpMethod.Put, $"/api/Image/{id}");
             request.Content = content;
 
             // Send the request using the HttpClient object and wait for the response
@@ -161,14 +156,14 @@ namespace Sella_DashBoard.Controllers
             {
                 return View();
             }
-           
+
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
 
-            Images Img = await client.GetFromJsonAsync<Images>(route+"/"+id);
+            Images Img = await client.GetFromJsonAsync<Images>(route + "/" + id);
             return View(Img);
         }
 
@@ -176,7 +171,7 @@ namespace Sella_DashBoard.Controllers
         public async Task<IActionResult> Delete(int id)
         {
 
-            Images Img = await client.GetFromJsonAsync<Images>(route+"/"+id);
+            Images Img = await client.GetFromJsonAsync<Images>(route + "/" + id);
             return View(Img);
 
         }
@@ -184,10 +179,8 @@ namespace Sella_DashBoard.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await client.DeleteAsync(route+"/"+id);
+            await client.DeleteAsync(route + "/" + id);
             return RedirectToAction("Index");
         }
-
-
     }
 }
