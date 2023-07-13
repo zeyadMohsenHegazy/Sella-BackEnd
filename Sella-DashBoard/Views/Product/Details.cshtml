@@ -1,4 +1,4 @@
-﻿@model Sella_DashBoard.Models.Product
+﻿@model Sella_DashBoard.Models.ProductDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,62 +10,73 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
+            @Html.DisplayNameFor(model => model.Products.ProductName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
+            @Html.DisplayFor(model => model.Products.ProductName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Products.Price)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price) $
+            @Html.DisplayFor(model => model.Products.Price) $
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
+            @Html.DisplayNameFor(model => model.Products.Quantity)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
+            @Html.DisplayFor(model => model.Products.Quantity)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Color)
+            @Html.DisplayNameFor(model => model.Products.Color)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Color)
+            @Html.DisplayFor(model => model.Products.Color)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Products.Description)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Products.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Length)
+            @Html.DisplayNameFor(model => model.Products.Length)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Length)
+            @Html.DisplayFor(model => model.Products.Length)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Width)
+            @Html.DisplayNameFor(model => model.Products.Width)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Width)
+            @Html.DisplayFor(model => model.Products.Width)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Height)
+            @Html.DisplayNameFor(model => model.Products.Height)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Height)
+            @Html.DisplayFor(model => model.Products.Height)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.category.CategoryName)
+            @Html.DisplayNameFor(model => model.Products.category.CategoryName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.category.CategoryName)
+            @Html.DisplayFor(model => model.Products.category.CategoryName)
         </dd>
+
+        @foreach (var item in Model.Images)
+        {
+            <dt class="col-sm-2">
+                Image URL
+            </dt>
+            <dd class="col-sm-10">
+                @item
+            </dd>
+        }
+        
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Products.CategoryID}) |
     <a asp-action="Index">Back to List</a>
 </div>

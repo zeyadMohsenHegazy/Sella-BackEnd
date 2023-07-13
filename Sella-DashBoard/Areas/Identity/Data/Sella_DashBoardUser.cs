@@ -9,5 +9,6 @@ namespace Sella_DashBoard.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the Sella_DashBoardUser class
 public class Sella_DashBoardUser : IdentityUser
 {
+    public string FirstName { get; set; }
 }
 

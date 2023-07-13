@@ -1,9 +1,12 @@
-﻿namespace Sella_DashBoard.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Sella_DashBoard.Models
 {
     public class Product
     {
         public int ProductID { get; set; }
 
+        [Display(Name ="Product Name")]
         public string ProductName { get; set; }
 
         public double Price { get; set; }

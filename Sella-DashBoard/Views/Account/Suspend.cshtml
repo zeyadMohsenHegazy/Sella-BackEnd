@@ -1,0 +1,8 @@
+﻿<h1>Suspend Account</h1>
+
+<p>Are you sure you want to suspend this account?</p>
+
+<form method="post" asp-action="Suspend" asp-route-id="@Model.Id">
+    <button type="submit" class="btn btn-danger">Suspend Account</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Sella_DashBoard.Areas.Identity.Data;
 
 namespace Sella_DashBoard.Areas.Identity.Data;
 

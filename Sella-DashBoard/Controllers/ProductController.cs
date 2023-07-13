@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sella_DashBoard.Models;
+using System.Drawing;
 
 namespace Sella_DashBoard.Controllers
 {
@@ -11,6 +12,7 @@ namespace Sella_DashBoard.Controllers
         HttpClient client = new HttpClient();
         string route = "http://localhost:49182/api/Product";
         string route1 = "http://localhost:49182/api/Category";
+        string route2 = "http://localhost:49182/api/Image/product";
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -58,9 +60,19 @@ namespace Sella_DashBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-
+            List<string> _imageUrl = new List<string>();
+            List<Images> _images = await client.GetFromJsonAsync<List<Images>>(route2+"/"+id);
             Product P = await client.GetFromJsonAsync<Product>(route+"/"+id);
-            return View(P);
+            foreach(var _img in _images)
+            {
+                _imageUrl.Add(_img.ImageURL);
+            }
+            var viewModel = new ProductDetailsViewModel
+            {
+                Images = _imageUrl,
+                Products = P
+            };
+            return View(viewModel);
         }
 
         [HttpGet]
