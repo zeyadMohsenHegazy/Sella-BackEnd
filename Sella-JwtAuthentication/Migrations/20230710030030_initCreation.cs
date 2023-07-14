@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Sella_JwtAuthentication.Migrations
+namespace API_Sella.Migrations
 {
     /// <inheritdoc />
     public partial class initCreation : Migration

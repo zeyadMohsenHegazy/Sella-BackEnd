@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Sella_JwtAuthentication.Helpers;
-using Sella_JwtAuthentication.Models;
+using API_Sella.Helpers;
+using API_Sella.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Sella_JwtAuthentication.Controllers
+namespace API_Sella.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

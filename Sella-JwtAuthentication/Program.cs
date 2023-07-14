@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Sella_JwtAuthentication.Helpers;
-using Sella_JwtAuthentication.Models;
+using API_Sella.Helpers;
+using API_Sella.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

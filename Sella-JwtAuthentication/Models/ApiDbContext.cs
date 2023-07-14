@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Sella_JwtAuthentication.Models
+namespace API_Sella.Models
 {
     public class ApiDbContext :IdentityDbContext
     {

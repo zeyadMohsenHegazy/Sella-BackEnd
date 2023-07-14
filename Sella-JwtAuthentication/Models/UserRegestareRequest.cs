@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sella_JwtAuthentication.Models
+namespace API_Sella.Models
 {
     public class UserRegestareRequest
     {

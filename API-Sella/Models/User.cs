@@ -1,9 +1,6 @@
-﻿using Castle.Components.DictionaryAdapter;
-using System.ComponentModel.DataAnnotations;
-using KeyAttribute = System.ComponentModel.DataAnnotations.KeyAttribute;
+﻿using System.ComponentModel.DataAnnotations;
 
-
-namespace Sella_API.Model
+namespace API_Sella.Models
 {
     public class User
     {
@@ -28,5 +25,6 @@ namespace Sella_API.Model
         public string Token { get; set; } = string.Empty;
 
         public string Role { get; set; } = string.Empty;
+
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Sella_JwtAuthentication.Models
+﻿namespace API_Sella.Models
 {
     public class RegistrationRequestResult : AuthorRes
     {

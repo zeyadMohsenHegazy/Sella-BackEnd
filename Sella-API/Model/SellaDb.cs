@@ -22,6 +22,8 @@ namespace Sella_API.Model
            .WithMany(c => c.CartProducts)
            .IsRequired();
 
+            modelBuilder.Entity<User>().ToTable("Sella Users");
+
             modelBuilder.Entity<CartProducts>()
             .HasOne(cp => cp.Product)
             .WithMany(p => p.CartProducts)
@@ -41,14 +43,7 @@ namespace Sella_API.Model
             .WithMany(p => p.OrderedProducts)
             .IsRequired();
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("Data Source=.; Initial Catalog=Sella; Integrated Security=true;TrustServerCertificate=true; Trusted_Connection=true; ");
 
-        //    }
-        //}
 
         public  DbSet<User> Users { get; set; }
         public  DbSet<Order> Orders { get; set; }

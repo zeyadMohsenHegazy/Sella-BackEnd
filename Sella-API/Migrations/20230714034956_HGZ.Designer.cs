@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sella_API.Model;
 
@@ -11,9 +12,11 @@ using Sella_API.Model;
 namespace Sella_API.Migrations
 {
     [DbContext(typeof(SellaDb))]
-    partial class SellaDbModelSnapshot : ModelSnapshot
+    [Migration("20230714034956_HGZ")]
+    partial class HGZ
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
