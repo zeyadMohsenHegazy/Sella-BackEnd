@@ -38,6 +38,13 @@ namespace API_Sella.Controllers
                 return BadRequest();
             }
 
+            var _user = await DbContext.Users.FirstOrDefaultAsync(ww => ww.Email == UserObj.Email);
+            if(_user != null)
+            {
+                return BadRequest(new { Message = "Email already exists !" });
+            }
+            
+
             await DbContext.Users.AddAsync(UserObj);
             await DbContext.SaveChangesAsync();
             return Ok(new { Message = "User Registered" });
