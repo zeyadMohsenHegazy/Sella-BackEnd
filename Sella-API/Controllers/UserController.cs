@@ -3,8 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sella_API.Helpers;
 using Sella_API.Model;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.RegularExpressions;
+using System;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API_Sella.Controllers
 {
@@ -23,13 +27,24 @@ namespace API_Sella.Controllers
             if (UserObj == null)
                 return BadRequest();
 
-            var User = await DbContext.Users.FirstOrDefaultAsync(ww => ww.Email == UserObj.Email && ww.Password == UserObj.Password);
+            var User = await DbContext.Users.FirstOrDefaultAsync(ww => ww.Email == UserObj.Email);
             if(User == null)
             {
                 return NotFound(new { Message = "User Not Found" });
             }
 
-            return Ok(new { Message = "Success!" });
+            if (!PasswordHasher.VarifyPassword(UserObj.Password , User.Password))
+            {
+                return BadRequest(new {Message = "Password is Incorrect"});
+            }
+
+            User.Token = CreateJwtToken(User);
+
+            return Ok(new { 
+                Token = User.Token,
+                User = (User.UserId).ToString(),
+                Message = "Success!" 
+            });
         }
 
         [HttpPost("Register")]
@@ -40,9 +55,6 @@ namespace API_Sella.Controllers
                 return BadRequest();
             }
 
-            //check user Name existance 
-            if (await CheckUserNameExistance(UserObj.UserName))
-                return BadRequest(new { Message = "User Name Already Exists!" });
             
             //check Email Existance 
             if(await CheckEmailExistance(UserObj.Email))
@@ -56,10 +68,16 @@ namespace API_Sella.Controllers
             UserObj.Password = PasswordHasher.HashPassword(UserObj.Password);
             UserObj.Role = "User";
             UserObj.Token = "";
+            UserObj.Address = "";
+            UserObj.Phone = "";
 
             await DbContext.Users.AddAsync(UserObj);
             await DbContext.SaveChangesAsync();
+            
+
+            //on success 
             return Ok(new { Message = "User Registered" });
+
         }
 
 
@@ -72,13 +90,6 @@ namespace API_Sella.Controllers
         }
 
         #region Backend Validatoin on Registeration
-
-        //method to check username existance
-        private async Task<bool> CheckUserNameExistance(string _userName)
-        {
-            return await DbContext.Users.AnyAsync(z => z.UserName == _userName);
-        }
-
         //method to check Email Existance 
         private async Task<bool> CheckEmailExistance(string _email)
         {
@@ -105,5 +116,33 @@ namespace API_Sella.Controllers
             return sb.ToString();
         } 
         #endregion
+
+
+        private string CreateJwtToken(User _user)
+        {
+            var JwtTokenHandler = new JwtSecurityTokenHandler();
+            var Key = Encoding.ASCII.GetBytes("InTheNameOfAllah...");
+
+            var Identity = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Role, _user.Role),
+                new Claim(ClaimTypes.Name, $"{_user.FirstName} {_user.LastName}")
+            });
+
+            var Credentials = new SigningCredentials(new SymmetricSecurityKey(Key), 
+                SecurityAlgorithms.HmacSha256);
+
+            var TokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = Identity,
+                Expires = DateTime.Now.AddDays(15),
+                SigningCredentials = Credentials,
+
+            };
+
+            var Token = JwtTokenHandler.CreateToken(TokenDescriptor);
+
+            return JwtTokenHandler.WriteToken(Token);
+        }
     }
 }
