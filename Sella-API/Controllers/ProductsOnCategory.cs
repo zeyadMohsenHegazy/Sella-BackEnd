@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sella_API.DTO;
 using Sella_API.Model;
@@ -16,7 +17,7 @@ namespace Sella_API.Controllers
         {
             context = _context;
         }
-
+        [Authorize]
         [HttpGet("{categoryId}")]
         public IActionResult GetProductsOnCategory(int categoryId)
         {

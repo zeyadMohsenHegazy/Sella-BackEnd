@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sella_DashBoard.Models;
 
 namespace DashboardSella.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         HttpClient client = new HttpClient();
