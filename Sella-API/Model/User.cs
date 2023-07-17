@@ -19,8 +19,9 @@ namespace Sella_API.Model
         [Required]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
-        public string UserName { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+
+        public string Phone { get; set; } 
 
         [Required]
         public string Password { get; set; } = string.Empty;

@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Sella_API.Model;
 using System.Text.Json.Serialization;
-
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +24,26 @@ builder.Services.AddDbContext<SellaDb>(options =>
 {
     options.UseLazyLoadingProxies().UseSqlServer("Data Source=.; Initial Catalog=Sella; Integrated Security=true; TrustServerCertificate=true");
 });
+
+//JWT Service
+builder.Services.AddAuthentication(z =>
+{
+    z.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    z.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(z =>
+{
+    z.RequireHttpsMetadata = false;
+    z.SaveToken = true;
+    z.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("InTheNameOfAllah...")),
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 var app = builder.Build();
 
 
