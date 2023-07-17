@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sella_DashBoard.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace DashboardSella.Controllers
 {
@@ -13,12 +15,22 @@ namespace DashboardSella.Controllers
         string route1 = "http://localhost:49182/api/Category";
         string route2 = "http://localhost:49182/api/Image/product";
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
+        //[HttpGet]
+        //public async Task<IActionResult> Index()
+        //{
 
-            List<Product> Products = await client.GetFromJsonAsync<List<Product>>(route);
-            return View(Products);
+        //    List<Product> Products = await client.GetFromJsonAsync<List<Product>>(route);
+        //    return View(Products);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Index(int? page)
+        {
+            List<Product> products = await client.GetFromJsonAsync<List<Product>>(route);
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+            IPagedList<Product> pagedProducts = products.ToPagedList(pageNumber, pageSize);
+            return View(pagedProducts);
         }
         [HttpGet]
         public async Task<IActionResult> Create()

@@ -24,24 +24,35 @@ namespace Sella_API.Controllers
             return Ok(cart);
         }
 
-        [HttpPost]
-        public IActionResult AddCart(CartDTO data)
-        {
-            if (ModelState.IsValid == true)
+            [HttpPost]
+            public IActionResult AddCart(CartDTO data)
             {
-                Cart C = new Cart();
-                C.Quantity = data.Quantity;
-                C.SubTotal = data.SubTotal;
-                C.CustomerID = data.CustomerID;
-                context.Carts.Add(C);
-                context.SaveChanges();
-                return Ok("Created");
+                if (ModelState.IsValid == true)
+                {
+                    Cart existingCart = context.Carts.FirstOrDefault(c => c.CustomerID == data.CustomerID);
+                    if (existingCart != null)
+                    {
+                        existingCart.Quantity = data.Quantity;
+                        existingCart.SubTotal = data.SubTotal;
+                        context.SaveChanges();
+                        return Ok(existingCart.CartID);
+                    }
+                    else
+                    {
+                        Cart newCart = new Cart();
+                        newCart.Quantity = data.Quantity;
+                        newCart.SubTotal = data.SubTotal;
+                        newCart.CustomerID = data.CustomerID;
+                        context.Carts.Add(newCart);
+                        context.SaveChanges();
+                        return Ok(newCart.CartID);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Failed !!!");
+                }
             }
-            else
-            {
-                return BadRequest("Failed !!!");
-            }
-        }
 
         [HttpPut("{id:int}")]
         public IActionResult EditProduct(int id, [FromBody] CartDTO data)
