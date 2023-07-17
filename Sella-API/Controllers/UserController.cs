@@ -80,7 +80,6 @@ namespace API_Sella.Controllers
 
         }
 
-
         //just for developing reasons 
         [HttpGet("GetAllUsers")]
         public IActionResult GetAllUsers()
@@ -116,7 +115,6 @@ namespace API_Sella.Controllers
             return sb.ToString();
         } 
         #endregion
-
 
         private string CreateJwtToken(User _user)
         {
