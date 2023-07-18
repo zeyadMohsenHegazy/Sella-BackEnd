@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Sella_DashBoard.Models;
 using PagedList.Mvc;
 using PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DashboardSella.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         HttpClient client = new HttpClient();

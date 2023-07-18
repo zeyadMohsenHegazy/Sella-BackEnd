@@ -92,29 +92,9 @@
     </tbody>
 
 
-    <div class="text-center">
-    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
-    new PagedListRenderOptions
-    {
-    DisplayItemSliceAndTotal = true,
-    ContainerDivClasses = new[] { "navigation" },
-    LiElementClasses = new[] { "page-item" },
-    PageClasses = new[] { "page-link" },
-    })
-    </div>
 
 </table>
 
 
 
 
-@section Scripts{
-    <script>
-        // Workaround to fix style of text for showing items .. through ..
-        // Problem related to Boostrap 4 according to issue in link below
-        // https://github.com/dncuug/X.PagedList/issues/127
-        $(document).ready(function () {
-            $('ul.pagination > li.disabled > a').addClass('page-link');
-        });
-    </script>
-}

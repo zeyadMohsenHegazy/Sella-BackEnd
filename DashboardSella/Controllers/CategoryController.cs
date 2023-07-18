@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sella_DashBoard.Models;
+using System.Data;
 
 namespace DashboardSella.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         HttpClient client = new HttpClient();
