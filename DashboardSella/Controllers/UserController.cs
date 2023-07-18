@@ -108,7 +108,19 @@ namespace DashboardSella.Controllers
             }
             return View(user);
         }
+        public async Task<IActionResult> Edit(string id)
+        {
 
+            var user = await _userManager.FindByIdAsync(id);
+            var roles = await _userManager.GetRolesAsync(user);
+            user.Email = roles.FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
         public async Task<IActionResult> Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
