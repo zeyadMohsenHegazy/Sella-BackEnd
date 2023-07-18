@@ -17,36 +17,36 @@
 <h1>Product Section</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-sucess">Create New</a>
 </p>
-<table class="table table-bordered">
+<table class="table table-striped table-bordered">
     <thead>
-        <tr>
-            <th>
+        <tr class="table-primary">
+            <th class="h5">
                 @Html.DisplayNameFor(model => model.ProductName)
             </th>
-            <th>
+            <th class="h5">
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th>
+            <th class="h5">
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-            <th>
+            <th class="h5">
                 @Html.DisplayNameFor(model => model.Color)
             </th>
-            <th>
+            <th class="h5">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
+            <th class="h5">
                 @Html.DisplayNameFor(model => model.Length)
             </th>
-            <th>
+            <th class="h5">
                 @Html.DisplayNameFor(model => model.Width)
             </th>
-            <th>
+            <th class="h5">
                 @Html.DisplayNameFor(model => model.Height)
             </th>
-            <th>
+            <th class="h5">
                 Category Name
             </th>
             <th></th>
@@ -55,37 +55,37 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td class="h6">
                 @Html.DisplayFor(modelItem => item.ProductName)
             </td>
-            <td>
+                <td class="h6">
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td>
+            <td class="h6">
                 @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
+            </td  class="h6">
+            <td class="h6">
                 @Html.DisplayFor(modelItem => item.Color)
             </td>
-            <td>
+            <td class="h6">
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td>
+            <td class="h6">
                 @Html.DisplayFor(modelItem => item.Length)
             </td>
-            <td>
+            <td class="h6">
                 @Html.DisplayFor(modelItem => item.Width)
             </td>
-            <td>
+            <td class="h6">
                 @Html.DisplayFor(modelItem => item.Height)
             </td>
-            <td>
+            <td class="h6">
                     @Html.DisplayFor(modelItem => item.category.CategoryName)
             </td>
             <td>
-                    @Html.ActionLink("Edit", "Edit", new {id=item.ProductID }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.ProductID  }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.ProductID  })
+                    @Html.ActionLink("Edit", "Edit", new {id=item.ProductID },new { @class = "btn btn-warning" }) 
+                    @Html.ActionLink("Details", "Details", new { id=item.ProductID  },new { @class = "btn btn-info" }) 
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ProductID  },new { @class = "btn btn-danger" })
             </td>
         </tr>
 }

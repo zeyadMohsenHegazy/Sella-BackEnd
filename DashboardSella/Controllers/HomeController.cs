@@ -5,7 +5,6 @@ using System.Diagnostics;
 
 namespace DashboardSella.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,6 +14,7 @@ namespace DashboardSella.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();

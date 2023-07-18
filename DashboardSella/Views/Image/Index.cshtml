@@ -4,31 +4,31 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Product Images Section </h1>
-<h5> Filter by Product Name : </h5>
-
+<h1 class="d-flex">Product Images Section </h1>
+@*<h5 class="d-flex"> Filter by Product Name : </h5>
+*@
 @using (Html.BeginForm("Search", "Image", FormMethod.Get))
 {
     <div class="form-group">
-        @Html.Label("Product Name")
+        <span class="text-dark p-1">Filter with Product Name:</span>
         @Html.DropDownList("products", "All Products")
-        <button type="submit" class="btn btn-info">Filter</button>
+        <button type="submit" class="btn btn-outline-dark">Filter</button>
     </div>
 }
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
-<table class="table table-bordered">
+<table class="table table-striped table-bordered">
     <thead>
-        <tr>
-            <th>
+        <tr class="table-primary">
+            <th class="h3">
                 @Html.DisplayNameFor(model => model.ImageURL)
             </th>
-            <th>
+            <th class="h3">
                 @Html.DisplayNameFor(model => model.product.ProductName)
             </th>
-            <th>
+            <th class="h3">
                 Actions
             </th>
         </tr>
@@ -36,17 +36,17 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+            <tr >
+                <td class="h4">
                     @Html.DisplayFor(modelItem => item.ImageURL)
                 </td>
-                <td>
+                <td class="h4">
                     @Html.DisplayFor(modelItem => item.product.ProductName)
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.ImageID }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.ImageID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.ImageID })
+                <td >
+                    @Html.ActionLink("Edit", "Edit", new { id=item.ImageID },new { @class = "btn btn-warning" }) 
+                    @Html.ActionLink("Details", "Details", new { id=item.ImageID },new { @class = "btn btn-info" }) 
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ImageID },new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }
