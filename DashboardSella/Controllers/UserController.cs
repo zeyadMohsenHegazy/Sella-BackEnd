@@ -19,12 +19,6 @@ namespace DashboardSella.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        //public IActionResult Index()
-        //{
-
-        //    var users = _userManager.Users.ToList();
-        //    return View(users);
-        //}
 
         public async Task<IActionResult> Index()
         {
@@ -37,18 +31,50 @@ namespace DashboardSella.Controllers
             return View(users);
         }
 
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> ResetPassword(string id)
         {
-
             var user = await _userManager.FindByIdAsync(id);
-            var roles = await _userManager.GetRolesAsync(user);
-            user.Email = roles.FirstOrDefault();
             if (user == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var model = new ResetPasswordViewModel
+            {
+                UserId = user.Id,
+                ResetToken = resetToken,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.ResetToken, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
         }
 
         [HttpPost]
@@ -104,10 +130,6 @@ namespace DashboardSella.Controllers
 
             return View("Index", await _userManager.Users.ToListAsync());
         }
-
-       
-
-
 
     }
 }
