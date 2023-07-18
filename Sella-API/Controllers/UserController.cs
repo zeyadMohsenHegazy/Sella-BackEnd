@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_Sella.Controllers
 {
@@ -81,12 +82,15 @@ namespace API_Sella.Controllers
         }
 
         //just for developing reasons 
+        [Authorize]
         [HttpGet("GetAllUsers")]
         public IActionResult GetAllUsers()
         {
             var Users = DbContext.Users.ToList();
             return Ok(Users);
         }
+
+
 
         #region Backend Validatoin on Registeration
         //method to check Email Existance 
@@ -133,7 +137,7 @@ namespace API_Sella.Controllers
             var TokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = Identity,
-                Expires = DateTime.Now.AddDays(15),
+                Expires = DateTime.Now.AddSeconds(10),
                 SigningCredentials = Credentials,
 
             };
