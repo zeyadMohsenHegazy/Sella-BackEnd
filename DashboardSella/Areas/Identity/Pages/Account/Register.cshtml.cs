@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DashboardSella.Areas.Identity.Pages.Account
 {
+    [Authorize(Roles ="Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -78,6 +79,10 @@ namespace DashboardSella.Areas.Identity.Pages.Account
             [Display(Name = "User Name")]
             public string UserName { get; set; }
 
+            [Required]
+            [Display(Name = "Role")]
+            public string Role { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -116,8 +121,9 @@ namespace DashboardSella.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.UserName, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                var res =  await _userManager.AddToRoleAsync(user, Input.Role);
 
-                if (result.Succeeded)
+                if (result.Succeeded && res.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
