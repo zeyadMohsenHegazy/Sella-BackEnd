@@ -1,4 +1,5 @@
 using DashboardSella.Data;
+using DashboardSella.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
