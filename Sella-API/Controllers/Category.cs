@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Sella_API.Migrations;
+
 using Sella_API.Model;
 
 namespace Sella_API.Controllers

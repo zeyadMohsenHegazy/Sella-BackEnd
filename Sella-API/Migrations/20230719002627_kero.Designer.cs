@@ -12,8 +12,8 @@ using Sella_API.Model;
 namespace Sella_API.Migrations
 {
     [DbContext(typeof(SellaDb))]
-    [Migration("20230718235958_V98")]
-    partial class V98
+    [Migration("20230719002627_kero")]
+    partial class kero
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,9 @@ namespace Sella_API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");

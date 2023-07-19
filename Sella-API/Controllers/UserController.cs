@@ -90,6 +90,14 @@
                 return Ok(Users);
             }
 
+        [HttpGet("api/User/{id:int}")]
+        public IActionResult GetUserbyID(int id)
+        {
+            var User = DbContext.Users.Find(id);
+            return Ok(User);
+
+        }
+
 
 
             #region Backend Validatoin on Registeration

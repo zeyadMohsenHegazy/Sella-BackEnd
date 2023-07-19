@@ -17,7 +17,7 @@ namespace Sella_API.Controllers
         {
             context = _context;
         }
-        [Authorize]
+    
         [HttpGet("{categoryId}")]
         public IActionResult GetProductsOnCategory(int categoryId)
         {
