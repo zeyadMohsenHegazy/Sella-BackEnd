@@ -137,7 +137,7 @@ namespace API_Sella.Controllers
             var TokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = Identity,
-                Expires = DateTime.Now.AddSeconds(10),
+                Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = Credentials,
 
             };
