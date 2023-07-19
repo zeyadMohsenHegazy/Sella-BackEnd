@@ -1,0 +1,9 @@
+﻿<form method="post" action="@Url.Action("DownloadReport", "Report")">
+    <label for="report-type">Select report type:</label>
+    <select name="report-type" id="report-type">
+        <option value="categories">Categories</option>
+        <option value="products">Products</option>
+        <option value="orders">Orders</option>
+    </select>
+    <button type="submit">Download Report</button>
+</form>

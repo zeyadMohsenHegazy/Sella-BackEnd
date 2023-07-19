@@ -10,7 +10,7 @@ namespace Sella_API.Model
         public int OrderID { get; set; }
 
         [Display(Name = "Order Date")]
-        public DateTime Date { get; set; }
+        public DateTime OrderDate { get; set; }
 
 
         [ForeignKey("customer")]
