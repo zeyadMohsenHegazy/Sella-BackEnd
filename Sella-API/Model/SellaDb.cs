@@ -51,7 +51,6 @@ namespace Sella_API.Model
         public  DbSet<Product> Products { get; set; }
         public  DbSet<ProductImages> ProductImages { get; set; }
         public  DbSet<OrderedProducts> OrderedProducts { get; set; }
-        public  DbSet<Customer> Customers { get; set; }
         public  DbSet<Cart> Carts { get; set; }
         public  DbSet<CartProducts> CartProducts { get; set; }
 

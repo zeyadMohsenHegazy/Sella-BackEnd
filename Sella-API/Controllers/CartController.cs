@@ -20,7 +20,7 @@ namespace Sella_API.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetCartbyUser(int id)
         {
-            var cart = context.Carts.Where(ww => ww.CustomerID == id).ToList();
+            var cart = context.Carts.Where(ww => ww.UserID == id).ToList();
             return Ok(cart);
         }
 
@@ -29,7 +29,7 @@ namespace Sella_API.Controllers
             {
                 if (ModelState.IsValid == true)
                 {
-                    Cart existingCart = context.Carts.FirstOrDefault(c => c.CustomerID == data.CustomerID);
+                    Cart existingCart = context.Carts.FirstOrDefault(c => c.UserID == data.CustomerID);
                     if (existingCart != null)
                     {
                         existingCart.Quantity = data.Quantity;
@@ -42,7 +42,7 @@ namespace Sella_API.Controllers
                         Cart newCart = new Cart();
                         newCart.Quantity = data.Quantity;
                         newCart.SubTotal = data.SubTotal;
-                        newCart.CustomerID = data.CustomerID;
+                        newCart.UserID = data.CustomerID;
                         context.Carts.Add(newCart);
                         context.SaveChanges();
                         return Ok(newCart.CartID);
@@ -60,7 +60,7 @@ namespace Sella_API.Controllers
             var update_Cart = context.Carts.Find(id);
             update_Cart.Quantity = data.Quantity;
             update_Cart.SubTotal = data.SubTotal;
-            update_Cart.CustomerID = data.CustomerID;
+            update_Cart.UserID = data.CustomerID;
             context.SaveChanges();
             return Ok("Cart Updated !! ");
         }

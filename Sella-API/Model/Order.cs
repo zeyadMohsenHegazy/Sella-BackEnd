@@ -9,14 +9,14 @@ namespace Sella_API.Model
         [Key]
         public int OrderID { get; set; }
 
-        [Display(Name = "Order Date")]
-        public DateTime Date { get; set; }
+        [Display(Name = "OrderDate")]
+        public DateTime OrderDate { get; set; }
 
 
-        [ForeignKey("customer")]
-        public int CustomerID { get; set; }
+        [ForeignKey("user")]
+        public int UserID { get; set; }
 
-        public virtual Customer customer { get; set; }
+        public virtual User user { get; set; }
         
 
         [InverseProperty("Order")]

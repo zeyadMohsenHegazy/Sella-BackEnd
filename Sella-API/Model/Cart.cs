@@ -14,10 +14,10 @@ namespace Sella_API.Model
         [DataType(DataType.Currency)]
         public double SubTotal { get; set; }
 
-        [ForeignKey("customer")]
-        public int CustomerID { get; set; }
+        [ForeignKey("user")]
+        public int UserID { get; set; }
 
-        public virtual Customer customer { get; set; }
+        public virtual User user { get; set; }
 
 
         [InverseProperty("Cart")]
