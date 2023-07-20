@@ -95,14 +95,33 @@
         {
             var User = DbContext.Users.Find(id);
             return Ok(User);
-
         }
 
+        [HttpPut("api/User/{id:int}")]
+        public IActionResult PutUser(int id,[FromBody] User user)
+        {
+            var User = DbContext.Users.Find(id);
+            User.FirstName = user.FirstName;
+            User.LastName = user.LastName;
+            User.Email = user.Email;
+        
+            User.Address = user.Address;
+            User.Phone = user.Phone;
+            
+            DbContext.SaveChanges();
+            return Ok("Edit Successfully !");
+        }
+
+        private bool UserExists(int id)
+        {
+            return DbContext.Users.Any(e => e.UserId == id);
+        }
+    
 
 
-            #region Backend Validatoin on Registeration
-            //method to check Email Existance 
-            private async Task<bool> CheckEmailExistance(string _email)
+    #region Backend Validatoin on Registeration
+    //method to check Email Existance 
+    private async Task<bool> CheckEmailExistance(string _email)
             {
                 return await DbContext.Users.AnyAsync(z => z.Email == _email);
             }
