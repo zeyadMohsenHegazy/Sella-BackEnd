@@ -12,15 +12,12 @@ namespace Sella_API.Model
         [Display(Name = "OrderDate")]
         public DateTime OrderDate { get; set; }
 
-
         [ForeignKey("user")]
         public int UserID { get; set; }
 
         public virtual User user { get; set; }
         
-
         [InverseProperty("Order")]
         public virtual ICollection<OrderedProducts> OrderedProducts { get; set; }
-
     }
 }
