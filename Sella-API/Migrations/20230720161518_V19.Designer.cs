@@ -12,8 +12,8 @@ using Sella_API.Model;
 namespace Sella_API.Migrations
 {
     [DbContext(typeof(SellaDb))]
-    [Migration("20230719002627_kero")]
-    partial class kero
+    [Migration("20230720161518_V19")]
+    partial class V19
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,6 +226,12 @@ namespace Sella_API.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ResetPasswordExpire")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ResetPasswordToken")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
