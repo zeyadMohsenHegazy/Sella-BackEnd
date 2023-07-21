@@ -229,7 +229,7 @@ namespace API_Sella.Controllers
 
             var token = user.ResetPasswordToken;
             DateTime emailTokenExpire = user.ResetPasswordExpire;
-            if (token != resetPasswordDTO.EmailToken && emailTokenExpire < DateTime.Now)
+            if (token != resetPasswordDTO.EmailToken || emailTokenExpire < DateTime.Now)
             {
                 return BadRequest(new
                 {
