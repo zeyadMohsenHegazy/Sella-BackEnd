@@ -214,7 +214,7 @@ namespace API_Sella.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromForm]ResetPasswordDTO resetPasswordDTO)
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDTO resetPasswordDTO)
         {
             //var newToken = resetPasswordDTO.EmailToken.Replace(" ", "+");
             var user = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(z => z.Email == resetPasswordDTO.Email);
