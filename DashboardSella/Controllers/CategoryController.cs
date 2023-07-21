@@ -10,6 +10,7 @@ namespace DashboardSella.Controllers
     {
         HttpClient client = new HttpClient();
         string route = "http://localhost:49182/api/Category";
+        string route1 = "http://localhost:49182/api/Category/GeneratePdfCategory";
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -17,7 +18,28 @@ namespace DashboardSella.Controllers
             List<Category> categories = await client.GetFromJsonAsync<List<Category>>(route);
             return View(categories);
         }
+
+
         [HttpGet]
+        public async Task<IActionResult> Print()
+        {
+           
+            var response = await client.GetAsync(route1);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsByteArrayAsync();
+                return File(content, "application/pdf" , "Category.pdf");
+            }
+
+            else
+            {
+                // handle error
+                return RedirectToAction("Index");
+            }
+        }
+
+
+            [HttpGet]
         public IActionResult Create()
         {
 
@@ -76,5 +98,7 @@ namespace DashboardSella.Controllers
             await client.DeleteAsync(route + "/" + id);
             return RedirectToAction("Index");
         }
+
+
     }
 }
