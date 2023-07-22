@@ -68,26 +68,14 @@ namespace Sella_API.Controllers
         }
 
         [HttpGet("GetOrderProductsDetails/{orderId}")]
-        public List<object> GetOrderProductsDetails(int orderId)
+        public List<Product> GetOrderProductsDetails(int orderId)
         {
-            var order = context.Orders
-                .Include(o => o.OrderedProducts)
-                .ThenInclude(op => op.Product)
-                .FirstOrDefault(o => o.OrderID == orderId);
+            var products = context.OrderedProducts
+                .Where(op => op.OrderID == orderId)
+                .Select(op => op.Product)
+                .ToList();
 
-            if (order == null)
-            {
-                return null;
-            }
-
-            var orderedProducts = order.OrderedProducts.Select(op => new
-            {
-                op.Product.ProductID,
-                op.Product.ProductName,
-                op.Product.Price
-            });
-
-            return orderedProducts.ToList<object>();
+            return products;
         }
 
         [HttpGet("GenerateInvoice")]
@@ -95,58 +83,99 @@ namespace Sella_API.Controllers
         {
             var document = new PdfDocument();
             User User_Detial = GetOrderUserDetails(Invoice_no);
-            string htmlcontent = "<html>";
-            htmlcontent += "<head>";
-            htmlcontent += "<style>";
-            htmlcontent += "body { font-family: Arial, sans-serif; }";
-            htmlcontent += "table { width: 100%; border-collapse: collapse; }";
-            htmlcontent += "th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }";
-            htmlcontent += "th { background-color: #f2f2f2; }";
-            htmlcontent += "h1 , p { text-align: center; }";
-            htmlcontent += ".invoice-details { display: flex; justify-content: space-between; margin-bottom: 20px; }";
-            htmlcontent += ".customer-details { width: 40%; }";
-            htmlcontent += ".invoice-details div { text-align: right; }";
-            htmlcontent += ".invoice-details div span { font-weight: bold; }";
-            htmlcontent += "</style>";
-            htmlcontent += "</head>";
-            htmlcontent += "<body>";
-            htmlcontent += "<h1>Invoice</h1>";
-            htmlcontent += "<div class='invoice-details'>";
-            htmlcontent += "<div class='customer-details'>";
-            htmlcontent += "<h3>Customer Details</h3>";
-            htmlcontent += "<p>" + User_Detial.FirstName + " " + User_Detial.LastName + "</p>";
-            htmlcontent += "<p>" + User_Detial.Address + "</p>";
-            htmlcontent += "<p>" + User_Detial.Phone + " | " + User_Detial.Email + "</p>";
+            List<Product> Product_Detial = GetOrderProductsDetails(Invoice_no);
+
+            string fileName = "Sella.jpeg";
+            string filePath = Path.Combine(_env.WebRootPath, "Images", fileName);
+
+            string htmlcontent = "<div style='width:100%; text-align:center;'>";
+            htmlcontent += "<img style='width:80px;height:80%' src='" + filePath + "' />";
             htmlcontent += "</div>";
-            htmlcontent += "<div class='invoice-info'>";
-            htmlcontent += "<div><span>Invoice No:</span> " + Invoice_no + "</div>";
-            htmlcontent += "<div><span>Invoice Date:</span> " + DateTime.Now + "</div>";
+
+            htmlcontent += "<div style='text-align:center;'>";
+            htmlcontent += "<h2 style='margin-bottom: 0;'>Invoice No: " + Invoice_no + "</h2>";
+            htmlcontent += "<p style='margin-top: 0; font-size: 16px;'>Invoice Date: " + DateTime.Now.ToString("dd/MM/yyyy") + "</p>";
             htmlcontent += "</div>";
+
+            htmlcontent += "<br/>";
+            htmlcontent += "<br/>";
+
+            htmlcontent += "<div style='text-align:left; margin-top: 20px;'>";
+            htmlcontent += "<p style='margin: 0;'><strong>Customer Name:</strong> " + User_Detial.FirstName + " " + User_Detial.LastName + "</p>";
+            htmlcontent += "<p style='margin: 0;'><strong>Customer Address:</strong> " + User_Detial.Address + "</p>";
+            htmlcontent += "<p style='margin: 0;'><strong>Customer Phone:</strong> " + User_Detial.Phone + "</p>";
+            htmlcontent += "<p style='margin: 0;'><strong>Customer Email:</strong> " + User_Detial.Email + "</p>";
             htmlcontent += "</div>";
-            htmlcontent += "<table>";
-            htmlcontent += "<thead>";
+            htmlcontent += "<br/>";
+
+
+
+            htmlcontent += "<div style='margin: 20px auto; width: 100%;text-align:center;'>";
+            htmlcontent += "<table style='width: 100%; border-collapse: collapse;'>";
+            htmlcontent += "<thead style='background-color: #f2f2f2;'>";
             htmlcontent += "<tr>";
-            htmlcontent += "<th>Product</th><th>Price</th><th>Quantity</th><th>Total</th>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Product Code</th>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Product</th>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Price</th>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Qty</th>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Total</th>";
             htmlcontent += "</tr>";
             htmlcontent += "</thead>";
-            htmlcontent += "<tbody>";
 
-            // Add order details here
-            //Order order = GetOrderDetails(Invoice_no);
-            //foreach (OrderItem item in order.Items)
-            //{
-                htmlcontent += "<tr>";
-                htmlcontent += "<td>P1</td>";
-                htmlcontent += "<td>100$</td>";
-                htmlcontent += "<td>1</td>";
-                htmlcontent += "<td>100$</td>";
+            int Total = 0;
+            foreach (Product product in Product_Detial)
+            {
+                Total += (int) product.Price * product.Quantity;
+                htmlcontent += "<tbody>";
+                htmlcontent += "<tr style='text-align:center;'>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>P "+product.ProductID+"</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.ProductName+"</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price+"</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Quantity+"</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price * product.Quantity+"</td>";
                 htmlcontent += "</tr>";
-           // }
-
-            htmlcontent += "</tbody>";
+                htmlcontent += "</tbody>";
+            }
+            
             htmlcontent += "</table>";
-            htmlcontent += "</body>";
-            htmlcontent += "</html>";
+            htmlcontent += "</div>";
+
+            htmlcontent += "<br/>";
+
+
+
+            htmlcontent += "<div style='text-align:right'>";
+            htmlcontent += "<h1> Summary Info </h1>";
+            htmlcontent += "<table style='border:1px solid #000;float:right;border-collapse: collapse;' >";
+            htmlcontent += "<tr style='background-color: #f2f2f2;text-align:center;'>";
+            htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;> Summary Total </td>";
+            htmlcontent += "</tr>";
+            htmlcontent += "<tr style='text-align:center;'>";
+            htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;> "+Total+" </td>";
+            htmlcontent += "</tr>";
+            htmlcontent += "</table>";
+            htmlcontent += "</div>";
+
+
+            htmlcontent += "<br/>";
+            
+
+
+            TimeSpan currentTime = DateTime.Now.TimeOfDay;
+            DateTime currentDateTime = DateTime.Today.Add(currentTime);
+            string currentTimeString = currentDateTime.ToString("hh:mm tt");
+
+            htmlcontent += "<div style='text-align:center'>";
+            htmlcontent += "<h3> Thanks For Shopping </h3>";
+            htmlcontent += "<h5 style='margin: 0;'> " + currentTimeString + " </h5>";
+
+
+            htmlcontent += "</div>";
+            htmlcontent += "<h3 style='font-family: Lobster, cursive; font-size: 48px; color: #555; letter-spacing: 4px; text-align: center; margin-top: 40px; line-height: 1.5;'>Sella</h3>";
+            htmlcontent += "</div>";
+
+
+
 
             PdfGenerator.AddPdfPages(document, htmlcontent, PageSize.A4);
             byte[]? response = null;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rotativa.AspNetCore;
 using Sella_DashBoard.Models;
 using System.Data;
 
@@ -98,6 +99,8 @@ namespace DashboardSella.Controllers
             await client.DeleteAsync(route + "/" + id);
             return RedirectToAction("Index");
         }
+
+       
 
 
     }
