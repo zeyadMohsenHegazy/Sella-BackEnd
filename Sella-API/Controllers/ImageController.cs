@@ -35,7 +35,7 @@ namespace Sella_API.Controllers
                 return BadRequest();
             }
 
-            var imagePaths = images.Select(i => Path.Combine("/images/", i.ImageURL)).ToList();
+            var imagePaths = images.Select(i => Path.Combine("http://localhost:49182/images/", i.ImageURL)).ToList();
             return Ok(imagePaths);
         }
 
