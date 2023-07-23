@@ -150,6 +150,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors(Policy => Policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+app.UseStaticFiles();  // This line enables serving static files.
 
 app.UseAuthentication();
 app.UseAuthorization();
