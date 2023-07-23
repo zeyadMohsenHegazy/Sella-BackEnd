@@ -27,18 +27,16 @@ namespace Sella_API.Controllers
         }
 
         [HttpGet("product/{Pro_id:int}")]
-        public IActionResult GetAll(int Pro_id)
+        public IActionResult GetImages(int Pro_id)
         {
-            if (ModelState.IsValid == true)
+            var images = context.ProductImages.Where(i => i.ProductID == Pro_id).ToList();
+            if (images == null || images.Count == 0)
             {
-                var pro = context.ProductImages.Where(s => s.ProductID == Pro_id).ToList();
-                return Ok(pro);
-            }
-            else
-            {
-                return BadRequest("Image Not Exist !!!");
+                return BadRequest();
             }
 
+            var imagePaths = images.Select(i => Path.Combine("http://localhost:49182/images/", i.ImageURL)).ToList();
+            return Ok(imagePaths);
         }
 
         [HttpGet("{id:int}")]
