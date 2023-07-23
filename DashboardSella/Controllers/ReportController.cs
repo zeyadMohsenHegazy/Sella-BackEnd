@@ -268,6 +268,44 @@ namespace DashboardSella.Controllers
             return File(response, "application/pdf", null);
         }
 
+        public async Task<IActionResult> OrderReportDownload()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:49182");
+                var response = await client.GetAsync("/api/OrderProduct/Report");
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsByteArrayAsync();
+                    return File(content, "application/pdf", "Orders Report.pdf");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error retrieving report");
+                    return View();
+                }
+            }
+        }
+
+        public async Task<IActionResult> OrderReportView()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:49182");
+                var response = await client.GetAsync("/api/OrderProduct/Report");
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsByteArrayAsync();
+                    return File(content, "application/pdf", null);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error retrieving report");
+                    return View();
+                }
+            }
+        }
+
 
     }
 }

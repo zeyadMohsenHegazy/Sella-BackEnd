@@ -60,6 +60,17 @@
 
             </td>
         </tr>
+        <tr>
+            <td class="h5">
+                Orders Report
+            </td>
+            <td class="h5">
+                <a asp-action="OrderReportView" target="_blank" class="btn btn-info">Preview Report</a> |
+                <a asp-action="OrderReportDownload" class="btn btn-success">Download Report</a> |
+                <a onclick="printPDF4()" class="btn btn-warning">Print Report</a>
+
+            </td>
+        </tr>
     </tbody>
 </table>
 <iframe id="pdfViewer" style="display:none;width:100%;height:800px;"></iframe>
@@ -88,6 +99,13 @@
 
     function printPDF3() {
         document.getElementById("pdfViewer").src = '@Url.Action("UserReportView")';
+        document.getElementById("pdfViewer").onload = function () {
+            document.getElementById("pdfViewer").contentWindow.print();
+        }
+    }
+
+    function printPDF4() {
+        document.getElementById("pdfViewer").src = '@Url.Action("OrderReportView")';
         document.getElementById("pdfViewer").onload = function () {
             document.getElementById("pdfViewer").contentWindow.print();
         }
