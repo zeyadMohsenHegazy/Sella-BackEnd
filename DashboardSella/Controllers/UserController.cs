@@ -22,6 +22,7 @@ namespace DashboardSella.Controllers
 
         public async Task<IActionResult> Index()
         {
+
             var users = await _userManager.Users.ToListAsync();
             foreach (var user in users)
             {

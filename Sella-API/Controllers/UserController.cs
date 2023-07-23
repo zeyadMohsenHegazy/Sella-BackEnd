@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Cryptography;
 using Sella_API.DTO;
 using NETCore.MailKit.Core;
+using PdfSharpCore.Pdf;
+using PdfSharpCore;
+using TheArtOfDev.HtmlRenderer.PdfSharp;
 
 namespace API_Sella.Controllers
 {
@@ -22,11 +25,13 @@ namespace API_Sella.Controllers
         private readonly SellaDb DbContext; 
         private readonly IConfiguration Config;
         //private readonly IEmailService emailService;
+        private readonly IWebHostEnvironment _env;
 
-        public UserController(SellaDb _dbContext, IConfiguration config) //IEmailService _emailService
+        public UserController(SellaDb _dbContext, IConfiguration config, IWebHostEnvironment env) //IEmailService _emailService
         {
             DbContext = _dbContext;
             Config = config;
+            _env = env;
             //emailService = _emailService;
         }
 
@@ -247,6 +252,65 @@ namespace API_Sella.Controllers
                 Message = "Password Reset Successfully"
             });
 
+        }
+
+        [HttpGet("Reprot")]
+        public IActionResult Report()
+        {
+            var document = new PdfDocument();
+            var users = DbContext.Users.ToList();
+
+            string fileName = "Sella.jpeg";
+            string filePath = Path.Combine(_env.WebRootPath, "Images", fileName);
+
+            string htmlcontent = "<div style='width:100%; text-align:center;'>";
+            htmlcontent += "<img style='width:80px;height:80%' src='" + filePath + "' />";
+            htmlcontent += "</div>";
+
+            htmlcontent += "<div style='text-align:center;'>";
+            htmlcontent += "<h2 style='margin-bottom: 0;'> Clients Report </h2>";
+            htmlcontent += "<p style='margin-top: 0; font-size: 16px;'>Date: " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt") + "</p>";
+            htmlcontent += "</div>";
+
+            htmlcontent += "<br/>";
+
+            htmlcontent += "<div style='margin: 20px auto; width: 100%;text-align:center;'>";
+            htmlcontent += "<table style='width: 100%; border-collapse: collapse;'>";
+            htmlcontent += "<thead style='background-color: #f2f2f2;'>";
+            htmlcontent += "<tr>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Client Name</th>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Mail</th>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Address</th>";
+            htmlcontent += "<th style='border: 2px solid #ddd; padding: 8px;'>Phone</th>";
+            htmlcontent += "</tr>";
+            htmlcontent += "</thead>";
+
+
+            foreach (var U in users)
+            {
+
+                htmlcontent += "<tbody>";
+                htmlcontent += "<tr style='text-align:center;'>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>" + U.FirstName + " " + U.LastName + " </td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>" + U.Email + "</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>" + U.Address + "</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>" + U.Phone + "</td>";
+                htmlcontent += "</tr>";
+                htmlcontent += "</tbody>";
+            }
+
+            htmlcontent += "</table>";
+            htmlcontent += "</div>";
+
+            PdfGenerator.AddPdfPages(document, htmlcontent, PageSize.A4);
+            byte[]? response = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                document.Save(ms);
+                response = ms.ToArray();
+            }
+            string Filename = "Clients Report" + ".pdf";
+            return File(response, "application/pdf", Filename);
         }
 
     }

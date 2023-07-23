@@ -1,9 +1,96 @@
-﻿<form method="post" action="@Url.Action("DownloadReport", "Report")">
-    <label for="report-type">Select report type:</label>
-    <select name="report-type" id="report-type">
-        <option value="categories">Categories</option>
-        <option value="products">Products</option>
-        <option value="orders">Orders</option>
-    </select>
-    <button type="submit">Download Report</button>
-</form>
+﻿<h1>Report Section</h1>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th class="h3">
+                Report Type
+            </th>
+            <th class="h3">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        
+            <tr>
+                <td class="h5">
+                    Category Report
+                </td>
+                <td class="h5">
+                <a asp-action="CategoryReportView" target="_blank" class="btn btn-info">Preview Report</a> |
+                <a asp-action="CategoryReportDownload" class="btn btn-success">Download Report</a> |
+                <a onclick="printPDF()" class="btn btn-warning">Print Report</a>
+                
+            </td>
+            </tr>
+
+        <tr>
+            <td class="h5">
+                Product Report
+            </td>
+            <td class="h5">
+                <a asp-action="ProductReportView" target="_blank" class="btn btn-info">Preview Report</a> |
+                <a asp-action="ProductReportDownload" class="btn btn-success">Download Report</a> |
+                <a onclick="printPDF1()" class="btn btn-warning">Print Report</a>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td class="h5">
+                Sella Clients Report
+            </td>
+            <td class="h5">
+                <a asp-action="ClientReportView" target="_blank" class="btn btn-info">Preview Report</a> |
+                <a asp-action="ClientReportDownload" class="btn btn-success">Download Report</a> |
+                <a onclick="printPDF2()" class="btn btn-warning">Print Report</a>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td class="h5">
+                Sella Workers Report
+            </td>
+            <td class="h5">
+                <a asp-action="UserReportView" target="_blank" class="btn btn-info">Preview Report</a> |
+                <a asp-action="UserReportDownload" class="btn btn-success">Download Report</a> |
+                <a onclick="printPDF3()" class="btn btn-warning">Print Report</a>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+<iframe id="pdfViewer" style="display:none;width:100%;height:800px;"></iframe>
+
+
+<script>
+    function printPDF() {
+        document.getElementById("pdfViewer").src = '@Url.Action("CategoryReportView")';
+        document.getElementById("pdfViewer").onload = function () {
+        document.getElementById("pdfViewer").contentWindow.print();
+          }
+    }
+    function printPDF1() {
+        document.getElementById("pdfViewer").src = '@Url.Action("ProductReportView")';  
+        document.getElementById("pdfViewer").onload = function () {
+            document.getElementById("pdfViewer").contentWindow.print();
+        }
+    }
+
+    function printPDF2() {
+        document.getElementById("pdfViewer").src = '@Url.Action("ClientReportView")';
+        document.getElementById("pdfViewer").onload = function () {
+            document.getElementById("pdfViewer").contentWindow.print();
+        }
+    }
+
+    function printPDF3() {
+        document.getElementById("pdfViewer").src = '@Url.Action("UserReportView")';
+        document.getElementById("pdfViewer").onload = function () {
+            document.getElementById("pdfViewer").contentWindow.print();
+        }
+    }
+   
+</script>
