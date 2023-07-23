@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MailKit.Search;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Sella_API.DTO;
 using Sella_API.Model;
 
@@ -31,6 +33,18 @@ namespace Sella_API.Controllers
             {
                 return BadRequest("error");
             }
+        }
+
+        [HttpGet("Report")]
+        public IActionResult Report()
+        {
+            var orders = context.Orders
+            .Include(o => o.user) // Eagerly load the user (client) entity
+            .Include(o => o.OrderedProducts) // Eagerly load the ordered products collection
+            .ThenInclude(op => op.Product) // Eagerly load the product entity for each ordered product
+            .ToList();
+
+            return Ok(orders);
         }
     }
 }

@@ -130,9 +130,9 @@ namespace Sella_API.Controllers
                 htmlcontent += "<tr style='text-align:center;'>";
                 htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>P "+product.ProductID+"</td>";
                 htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.ProductName+"</td>";
-                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price+"</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price+" $</td>";
                 htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Quantity+"</td>";
-                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price * product.Quantity+"</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price * product.Quantity+ " $</td>";
                 htmlcontent += "</tr>";
                 htmlcontent += "</tbody>";
             }
@@ -151,7 +151,7 @@ namespace Sella_API.Controllers
             htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;> Summary Total </td>";
             htmlcontent += "</tr>";
             htmlcontent += "<tr style='text-align:center;'>";
-            htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;> "+Total+" </td>";
+            htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;> "+Total+ " $</td>";
             htmlcontent += "</tr>";
             htmlcontent += "</table>";
             htmlcontent += "</div>";
@@ -187,6 +187,8 @@ namespace Sella_API.Controllers
             string Filename = "Invoice_" + Invoice_no + ".pdf";
             return File(response, "application/pdf", Filename);
         }
+
+      
 
 
 
