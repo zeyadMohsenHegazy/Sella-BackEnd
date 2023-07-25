@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Sella_DashBoard.Models;
+using System.Text.Json;
 
 namespace DashboardSella.Controllers
 {
@@ -19,30 +20,56 @@ namespace DashboardSella.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-
             List<Images> Imgs = await client.GetFromJsonAsync<List<Images>>(route);
             List<Product> P = await client.GetFromJsonAsync<List<Product>>(route1);
             ViewBag.products = new SelectList(P, "ProductID", "ProductName", 1);
             return View(Imgs);
         }
 
-        [HttpGet]
+        //[HttpGet]
+        //public async Task<IActionResult> Search(int? products)
+        //{
+        //    if (products > 0)
+        //    {
+        //        List<Images> Imgs = await client.GetFromJsonAsync<List<Images>>($"http://localhost:49182/api/Image/product/{products}");
+        //        List<Product> P = await client.GetFromJsonAsync<List<Product>>(route1);
+        //        ViewBag.products = new SelectList(P, "ProductID", "ProductName", 1);
+        //        return View("Index", Imgs);
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+
+        //}
+
         public async Task<IActionResult> Search(int? products)
         {
             if (products > 0)
             {
+                try
+                {
+                    List<Images> Imgs = await client.GetFromJsonAsync<List<Images>>($"http://localhost:49182/api/Image/filter/{products}");
 
-                string r = "http://localhost:49182/api/Image/product";
-                List<Images> Imgs = await client.GetFromJsonAsync<List<Images>>(r + "/" + products);
-                List<Product> P = await client.GetFromJsonAsync<List<Product>>(route1);
-                ViewBag.products = new SelectList(P, "ProductID", "ProductName", 1);
-                return View("Index", Imgs);
+                    List<Product> P = await client.GetFromJsonAsync<List<Product>>(route1);
+                    ViewBag.products = new SelectList(P, "ProductID", "ProductName", 1);
+                    return View("Index", Imgs);
+                }
+                catch (JsonException ex)
+                {
+                    // Handle JSON deserialization error
+                    return BadRequest("Invalid JSON format: " + ex.Message);
+                }
+                catch (HttpRequestException ex)
+                {
+                    // Handle HTTP request error
+                    return BadRequest("Error retrieving data from server: " + ex.Message);
+                }
             }
             else
             {
                 return RedirectToAction("Index");
             }
-
         }
 
         [HttpGet]

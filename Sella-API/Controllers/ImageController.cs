@@ -14,7 +14,7 @@ namespace Sella_API.Controllers
         IWebHostEnvironment hostingEnvironment;
         SellaDb context = new SellaDb();
         public ImageController (SellaDb _context , IWebHostEnvironment _hostingEnvironment)
-        {
+        {   
             hostingEnvironment = _hostingEnvironment;
             context = _context;
         }
@@ -38,6 +38,19 @@ namespace Sella_API.Controllers
             var imagePaths = images.Select(i => Path.Combine("http://localhost:49182/images/", i.ImageURL)).ToList();
             return Ok(imagePaths);
         }
+
+        [HttpGet("filter/{Pro_id:int}")]
+        public IActionResult filterImages(int Pro_id)
+        {
+            var images = context.ProductImages.Where(i => i.ProductID == Pro_id).ToList();
+            if (images == null || images.Count == 0)
+            {
+                return BadRequest();
+            }
+
+            return Ok(images);
+        }
+
 
         [HttpGet("{id:int}")]
         public IActionResult GetImgbyID(int id)

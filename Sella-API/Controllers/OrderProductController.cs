@@ -119,9 +119,22 @@ namespace Sella_API.Controllers
             string Filename = "Orders Report" + ".pdf";
             return File(response, "application/pdf", Filename);
 
+        }
 
+        [HttpGet("Reapet")]
+        public IActionResult GetTopProducts()
+        {
+            var topProducts = context.OrderedProducts
+                .GroupBy(op => op.Product)
+                .OrderByDescending(g => g.Count())
+                .Take(3)
+                .Select(g => new
+                {
+                    ProductName = g.Key.ProductName,
+                    TimesOrdered = g.Count()
+                }).ToList();
 
-
+            return Ok(topProducts);
         }
     }
 }

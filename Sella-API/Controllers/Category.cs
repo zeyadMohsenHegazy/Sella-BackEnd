@@ -5,6 +5,7 @@ using Sella_API.Model;
 using TheArtOfDev.HtmlRenderer.PdfSharp;
 using PdfSharpCore;
 using PdfSharpCore.Pdf;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Sella_API.Controllers
@@ -132,6 +133,25 @@ namespace Sella_API.Controllers
             return File(response, "application/pdf", Filename);
         }
 
-        
+        [HttpGet("Count")]
+        public IActionResult GetStatistics()
+        {
+            var productCount = context.Products.Count();
+            var categoryCount = context.Categories.Count();
+            var orderCount = context.Orders.Count();
+            var userCount = context.Users.Count();
+
+            var statistics = new
+            {
+                ProductCount = productCount,
+                CategoryCount = categoryCount,
+                OrderCount = orderCount,
+                UserCount = userCount
+            };
+
+            return Ok(statistics);
+        }
+
+
     }
 }

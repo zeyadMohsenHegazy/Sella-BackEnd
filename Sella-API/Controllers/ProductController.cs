@@ -67,7 +67,7 @@ namespace Sella_API.Controllers
         [HttpPost]
         public IActionResult AddProduct(ProductWithCategoryDTO data)
         {
-            if (ModelState.IsValid == true)
+            if (ModelState.IsValid == true )
             {
                 Product P = new Product();
                 P.ProductName = data.ProductName;

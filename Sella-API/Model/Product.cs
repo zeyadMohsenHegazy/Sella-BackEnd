@@ -20,7 +20,8 @@ namespace Sella_API.Model
         [Range(0,double.MaxValue)]
         public double Price { get; set; }
 
-        [Required]
+        
+        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be greater than or equal to 0")]
         public int Quantity { get; set; }
         
         [Required]

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Sella_DashBoard.Models.Images>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Images";
 }
 
 <h1 class="d-flex">Product Images Section </h1>
@@ -38,15 +38,14 @@
         {
             <tr >
                 <td class="h5">
-                    @Html.DisplayFor(modelItem => item.ImageURL)
+                    <img src="http://localhost:49182/images/@item.ImageURL" style="width:200px;height:200px;">
                 </td>
                 <td class="h5">
                     @Html.DisplayFor(modelItem => item.product.ProductName)
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
-                    @Html.ActionLink("Edit", "Edit", new { id=item.ImageID },new { @class = "btn btn-warning" }) 
-                    @Html.ActionLink("Details", "Details", new { id=item.ImageID },new { @class = "btn btn-info" }) 
+                    @Html.ActionLink("Edit", "Edit", new { id=item.ImageID },new { @class = "btn btn-warning" })  
                     @Html.ActionLink("Delete", "Delete", new { id=item.ImageID },new { @class = "btn btn-danger" })
                     </div>
                 </td>

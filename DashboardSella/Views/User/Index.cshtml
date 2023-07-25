@@ -1,12 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IEnumerable<IdentityUser>
 
+@{
+    ViewData["Title"] = "Users";
+}
+
+
+
 <h2>User List</h2>
 
 <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Create User</a>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
+
             <table class="table table-bordered table-hover table-striped mt-2">
                 <thead>
                     <tr class="table-success">
@@ -34,8 +38,4 @@
                 </tbody>
             </table>
 
-        </div>
-
-    </div>
-
-</div>
+  

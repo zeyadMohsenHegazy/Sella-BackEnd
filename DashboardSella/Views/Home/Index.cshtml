@@ -1,8 +1,281 @@
-﻿@{
+﻿@using Newtonsoft.Json;
+@model List<Sella_DashBoard.Models.Product>
+
+@{
     ViewData["Title"] = "Home Page";
+    var topProducts = ViewData["TopProducts"];
+    var topProductsJson = JsonConvert.SerializeObject(Model.Take(3));
 }
 
-<div class="text-center">
-    <h1 class="display-4 text-primary mt-5">Welcome To Sella DashBoard </h1>
-    <h3 class="text-danger">This Project is Supervised by Eng/Mrihan Mohammed</h3>
-</div>
+<main class="main-container">
+    <div class="main-title">
+        <h2>DASHBOARD</h2>
+    </div>
+    <div class="main-cards">
+
+        <div class="card">
+            <div class="card-inner">
+                <h3>CATEGORIES</h3>
+            </div>
+            <h1>@ViewBag.CategoryCount</h1>
+        </div>
+
+
+        <div class="card">
+            <div class="card-inner">
+                <h3>PRODUCTS</h3>
+            </div>
+            <h1>@ViewBag.ProductCount</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <h3>ORDERS</h3>
+            </div>
+            <h1>@ViewBag.OrderCount</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <h3>CUSTOMERS</h3>
+            </div>
+            <h1>@ViewBag.UserCount</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <h3>SELLA WORKER</h3>
+            </div>
+            <h1>@ViewData["SellaWorker"]</h1>
+        </div>
+    </div>
+
+    <div style="display: flex;">
+        <div style="flex: 1;">
+            <h2>Top 5 Products</h2>
+            <canvas id="topProductsChart" width="50" height="50"></canvas>
+        </div>
+        <div style="flex: 6;">
+            <h2 style="color:black;">Sales Orders</h2>
+            <canvas id="salesChart" width="50" height="50"></canvas>
+        </div>
+    </div>
+
+   
+
+    
+
+  
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+<script>
+    var topProductsChart = document.getElementById('topProductsChart').getContext('2d');
+
+    var topProductsChart = document.getElementById('topProductsChart').getContext('2d');
+    var productsData = @Html.Raw(Json.Serialize(Model.Select(p => p.timesOrdered)));
+    var productsLabels = @Html.Raw(Json.Serialize(Model.Select(p => p.ProductName)));
+
+    var chartData = {
+        labels: productsLabels,
+        datasets: [{
+            label: 'Top 3 Products',
+            data: productsData,
+            backgroundColor: 'rgb(6,128,250)'
+        }]
+    };
+
+    var chartOptions = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        barPercentage: 0.6, 
+        categoryPercentage: 0.5 
+    };
+
+    var mychart = new Chart(topProductsChart, {
+        type: 'bar',
+        data: chartData,
+        options: chartOptions
+    });
+   
+
+
+    var salesChart = document.getElementById('salesChart').getContext('2d');
+
+    var chartData = {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+            label: 'Orders',
+            data: [2, 3, 4, 11, 5, 6, 9, 0, 1, 10, 8, 9],
+            backgroundColor: 'rgba(6,128,250,0.2)',
+            borderColor: 'rgb(6,128,250)',
+            borderWidth: 2,
+            pointRadius: 5,
+            pointBackgroundColor: 'rgb(6,128,250)',
+            pointBorderColor: 'white',
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: 'rgb(6,128,250)',
+            pointHoverBorderColor: 'white'
+        }]
+    };
+
+    var chartOptions = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    var myChart = new Chart(salesChart, {
+        type: 'line',
+        data: chartData,
+        options: chartOptions
+    });
+   
+</script>
+
+   
+<style>
+
+    body {
+  margin: 0;
+  padding: 0;
+  color: #9e9ea4;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.material-icons-outlined {
+  vertical-align: middle;
+  line-height: 1px;
+  font-size: 35px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 260px 1fr 1fr 1fr;
+  grid-template-rows: 0.2fr 3fr;
+  grid-template-areas:
+    'sidebar header header header'
+    'sidebar main main main';
+  height: 100vh;
+}
+
+/* ---------- HEADER ---------- */
+.header {
+  grid-area: header;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px 0 30px;
+  box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
+}
+
+.menu-icon {
+  display: none;
+}
+
+
+
+.main-container {
+  grid-area: main;
+  overflow-y: auto;
+  padding: 20px 20px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.main-title {
+  display: flex;
+  justify-content: space-between;
+  color:black;
+}
+
+.main-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  margin: 20px 0;
+  
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 25px;
+  border-radius: 5px;
+  color: white;
+}
+
+.card:first-child {
+  background-color: #2962ff;
+}
+
+.card:nth-child(2) {
+  background-color: #ff6d00;
+}
+
+.card:nth-child(3) {
+  background-color: #2e7d32;
+}
+
+.card:nth-child(4) {
+  background-color: #d50000;
+}
+ .card:nth-child(5) {
+  background-color: #9999FF;
+}
+
+.card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-inner > .material-icons-outlined {
+  font-size: 45px;
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  gap: 20px;
+  margin-top: 20px;
+
+}
+
+.charts-card {
+  background-color: #263043;
+  margin-bottom: 20px;
+  padding: 15px;
+  box-sizing: border-box;
+  -webkit-column-break-inside: avoid;
+  border-radius: 5px;
+  box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+}
+
+.chart-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+}
+</style>

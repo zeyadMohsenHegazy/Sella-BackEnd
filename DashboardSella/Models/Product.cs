@@ -27,5 +27,6 @@ namespace Sella_DashBoard.Models
         public int CategoryID { get; set; }
 
         public Category category { get; set; }
+        public int timesOrdered { get; set; }
     }
 }
