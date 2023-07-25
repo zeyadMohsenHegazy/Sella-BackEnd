@@ -9,7 +9,7 @@
 
 <main class="main-container">
     <div class="main-title">
-        <h2>DASHBOARD</h2>
+        <h2 class="h2 text-dark">DASHBOARD</h2>
     </div>
     <div class="main-cards">
 
@@ -50,16 +50,22 @@
         </div>
     </div>
 
-    <div style="display: flex;">
-        <div style="flex: 1;">
-            <h2>Top 5 Products</h2>
-            <canvas id="topProductsChart" width="50" height="50"></canvas>
-        </div>
-        <div style="flex: 6;">
-            <h2 style="color:black;">Sales Orders</h2>
-            <canvas id="salesChart" width="50" height="50"></canvas>
+    <div class="container mb-5">
+        <h2 class="h2 text-dark mt-2 mb-1">STATISTICS</h2>
+
+        <div class="row justify-content-center">
+             <div class="col-6 p-2">
+                <h2 class="text-center text-dark" >Top 5 Products</h2>
+                 <canvas id="topProductsChart" width="50" height="50"></canvas>
+             </div>
+
+             <div class="col-6 p-2">
+                     <h2 class="text-center text-dark">Sales Orders</h2>
+                 <canvas id="salesChart" width="50" height="50"></canvas>
+             </div>
         </div>
     </div>
+    
 
    
 
@@ -85,7 +91,7 @@
         datasets: [{
             label: 'Top 3 Products',
             data: productsData,
-            backgroundColor: 'rgb(6,128,250)'
+            backgroundColor: 'rgb(5,141,143)'
         }]
     };
 
@@ -122,13 +128,13 @@
             label: 'Orders',
             data: [2, 3, 4, 11, 5, 6, 9, 0, 1, 10, 8, 9],
             backgroundColor: 'rgba(6,128,250,0.2)',
-            borderColor: 'rgb(6,128,250)',
+            borderColor: 'rgb(5,141,143)',
             borderWidth: 2,
             pointRadius: 5,
-            pointBackgroundColor: 'rgb(6,128,250)',
+            pointBackgroundColor: 'rgb(5,141,143)',
             pointBorderColor: 'white',
             pointHoverRadius: 8,
-            pointHoverBackgroundColor: 'rgb(6,128,250)',
+            pointHoverBackgroundColor: 'rgb(5,141,143)',
             pointHoverBorderColor: 'white'
         }]
     };
