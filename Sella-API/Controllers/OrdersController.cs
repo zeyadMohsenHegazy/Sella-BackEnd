@@ -125,14 +125,14 @@ namespace Sella_API.Controllers
             int Total = 0;
             foreach (Product product in Product_Detial)
             {
-                Total += (int) product.Price * product.Quantity;
+                Total += (int) product.Price ;
                 htmlcontent += "<tbody>";
                 htmlcontent += "<tr style='text-align:center;'>";
                 htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>P "+product.ProductID+"</td>";
                 htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.ProductName+"</td>";
                 htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price+" $</td>";
-                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Quantity+"</td>";
-                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price * product.Quantity+ " $</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+1+"</td>";
+                htmlcontent += "<td style='border: 2px solid #ddd; padding: 8px;'>"+product.Price + " $</td>";
                 htmlcontent += "</tr>";
                 htmlcontent += "</tbody>";
             }
