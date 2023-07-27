@@ -15,6 +15,7 @@ namespace Sella_API.Controllers
     public class Category : ControllerBase
     {
         SellaDb context = new SellaDb();
+        int x = 0;
         private readonly IWebHostEnvironment _env;
         public Category(SellaDb _context, IWebHostEnvironment env)
         {
